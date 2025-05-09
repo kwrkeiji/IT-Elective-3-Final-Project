@@ -65,6 +65,127 @@ This API allows users to register, log in, and access protected routes. Below ar
   - **Success**: Returns protected resource data.
   - **Error**: Returns an error message if the token is missing or invalid.
 
+### 4. Customer Registration and Profile Management (File Upload)
+
+#### a. List and Create Customer Profiles
+
+- **Method**: GET, POST
+- **Endpoint**: `/api/customerReg/`
+- **Description**: 
+  - GET: Retrieve a list of customer profiles associated with the authenticated user.
+  - POST: Create a new customer profile, including uploading a profile image.
+
+- **Headers**:
+  - **Authorization**: Bearer `<access_token>`
+
+- **Request Body (POST)** (Multipart Form Data):
+    ```json
+    {
+      "firstname": "John",
+      "middlename": "Doe",
+      "lastname": "Smith",
+      "suffix": "Jr.",
+      "email": "john.smith@example.com",
+      "image": "<file>"
+    }
+    ```
+
+- **Response**:
+  - **GET Success**: Returns a list of customer profiles.
+    ```json
+    [
+      {
+        "id": 1,
+        "user": 1,
+        "firstname": "John",
+        "middlename": "Doe",
+        "lastname": "Smith",
+        "suffix": "Jr.",
+        "email": "john.smith@example.com",
+        "image": "http://example.com/media/customer_images/profile.jpg"
+      }
+    ]
+    ```
+  - **POST Success**: Returns the created customer profile.
+    ```json
+    {
+      "id": 1,
+      "user": 1,
+      "firstname": "John",
+      "middlename": "Doe",
+      "lastname": "Smith",
+      "suffix": "Jr.",
+      "email": "john.smith@example.com",
+      "image": "http://example.com/media/customer_images/profile.jpg"
+    }
+    ```
+
+#### b. Retrieve, Update, and Delete a Customer Profile
+
+- **Method**: GET, PUT, DELETE
+- **Endpoint**: `/api/customerReg/<int:pk>/`
+- **Description**: 
+  - GET: Retrieve details of a specific customer profile.
+  - PUT: Update a customer profile, including replacing the profile image.
+  - DELETE: Delete a customer profile and its associated image.
+
+- **Headers**:
+  - **Authorization**: Bearer `<access_token>`
+
+- **Request Body (PUT)** (Multipart Form Data):
+    ```json
+    {
+      "firstname": "Jane",
+      "middlename": "Doe",
+      "lastname": "Smith",
+      "suffix": "",
+      "email": "jane.smith@example.com",
+      "image": "<file>"
+    }
+    ```
+
+- **Response**:
+  - **GET Success**: Returns the customer profile details.
+    ```json
+    {
+      "id": 1,
+      "user": 1,
+      "firstname": "John",
+      "middlename": "Doe",
+      "lastname": "Smith",
+      "suffix": "Jr.",
+      "email": "john.smith@example.com",
+      "image": "http://example.com/media/customer_images/profile.jpg"
+    }
+    ```
+  - **PUT Success**: Returns the updated customer profile.
+    ```json
+    {
+      "id": 1,
+      "user": 1,
+      "firstname": "Jane",
+      "middlename": "Doe",
+      "lastname": "Smith",
+      "suffix": "",
+      "email": "jane.smith@example.com",
+      "image": "http://example.com/media/customer_images/new_profile.jpg"
+    }
+    ```
+  - **DELETE Success**: Returns a success message.
+    ```json
+    {
+      "message": "Customer profile deleted successfully."
+    }
+    ```
+
+- **Error Responses**:
+  - **Validation Error**: If the uploaded image exceeds the size limit or is of an unsupported format.
+    ```json
+    {
+      "error": "Image file size must not exceed 2MB."
+    }
+    ```
+
 ---
 
 ## CRUD API Endpoints
