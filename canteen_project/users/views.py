@@ -1,3 +1,4 @@
+from canteen_project.decorators import rate_limit
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -13,6 +14,7 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
+    @rate_limit(requests=3, window=300)
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
         response.data = {
